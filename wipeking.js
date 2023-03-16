@@ -1,6 +1,11 @@
 /**
  * 这个文件用来存储抹机王的各种api的方法
- * 
+ * 1. 首先要清除数据wk.clear_data();
+ * 2. 换线
+ * 3. 获取当前profile的路径: wk.get_profile_path()
+ * 4. 修改profile名字: profile_dir = 修改wk.change_profile_name(wk.get_profile_path(), email);
+ * 5. 保存当前profile: wk.save_profile
+ * 6. 下次直接load_profile(profile_dir)
  */
 wk = {};
 wk.base_get = function(action_desc,code,extra){
@@ -36,6 +41,7 @@ wk.base_get = function(action_desc,code,extra){
 }
 
 wk.clear_data = function(){//清理环境
+    toastLog();
     return this.base_get("环境清理","7001","");
 }
 
