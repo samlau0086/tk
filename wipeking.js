@@ -2,25 +2,52 @@
  * 这个文件用来存储抹机王的各种api的方法
  * 
  */
-function wk_base_get(action_desc,code,extra){
+wk = {};
+wk.base_get = function(action_desc,code,extra){
     var r = http.get('http://127.0.0.1:8181/api?reqCode='+code+extra);
     if(r.statusCode!=200){
         toastLog(action_desc+"失败，请检查WPK是否在运行");
         return false;
     }
+    var result = r.body.json();
+    if(result.RespCode!=0){
+        toastLog(result.Message);
+        return false;
+    }
+    for(var i =0 ; i<20; i++){
+        sleep(3000);
+        var qr = http.get('http://127.0.0.1:8181/api?reqCode=7011&taskId='+result.Data.TaskId);
+        if(qr.statusCode!=200){
+            continue;
+        }
+        qrresult = qr.body.json();
+        if(qrresult.RespCode==2){
+            toastLog(action_desc+"进行中");
+            continue;
+        }else if(qrresult.RespCode==-1){
+            toastLog(qrresult.Message);
+            return false;
+        }else if(qrresult.RespCode==1||qrresult.RespCode==0){
+            toastLog(action_desc+"成功");
+            return true
+        }
+    }
+    return false;
 }
 
-function wk_clear_data(){//清理环境
-    return wk_base_get("环境清理","7001","");
+wk.clear_data = function(){//清理环境
+    return this.base_get("环境清理","7001","");
 }
 
-function saveProfile(){
-    return wk_base_get("环境保存","7003","");
+wk.save_profile = function(){
+    return this.base_get("环境保存","7003","");
 }
-function loadProfile(profile_dir){//加载环境档案
-    return wk_base_get("环境加载","7002",'&configDir='+profile_dir);
+
+wk.load_profile = function(profile_dir){//加载环境档案
+    return this.base_get("环境加载","7002",'&configDir='+profile_dir);
 }
-function getProfilePath(){//获取当前环境路径
+
+wk.get_profile_path = function(){//获取当前环境路径
     var r = http.get('http://127.0.0.1:8181/api?reqCode=7012');
     if(r.statusCode!=200){
         console.warn(action_desc+"失败，请检查WPK是否在运行");
@@ -33,7 +60,8 @@ function getProfilePath(){//获取当前环境路径
     }
     return result.Data;
 }
-function changeProfileName(old_path,new_name){//原路径
+
+wk.change_profile_name = function(old_path,new_name){//原路径
     var reg = /(\/[^\/]+)+\/([^\/]+)/ig;
     var original_path = old_path;
     try{
@@ -58,10 +86,9 @@ function changeProfileName(old_path,new_name){//原路径
     }
     console.warn(result.Message);
     return original_path;
+}
+wk.test = function(){
+    toastLog('ok');
+}
 
-}
-function test(){
-    console.show();
-    console.info('ok');
-}
-module.exports = "*";
+module.exports = wk;
