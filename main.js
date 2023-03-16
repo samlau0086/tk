@@ -8,4 +8,6 @@ function download(f_url){
     files.writeBytes(btyes_);
     return f_name;
 }
-download('https://raw.githubusercontent.com/samlau0086/autoclickapps/main/main.js');
+download('https://raw.githubusercontent.com/samlau0086/tk/main/wipeking.js');
+require('wipeking.js');
+test();
