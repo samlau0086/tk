@@ -17,9 +17,11 @@ function get_module(path, force){
 }
 wk = get_module('wipeking.js');
 View = get_module('View.js');
-登录页面 = View(['idMatches(/.*title$/).textMatches(/.*Login in to Tiktok/)'],[]);
+登录页面 = new View(['currentActivity().indexOf("ComposeView")!=-1','idMatches(/.*title$/).textContains("Log in to TikTok").exists()'],[]);
+注册页面 = new View(['currentActivity().indexOf("SignUpActivity")!=-1','idMatches(/.*title$/).textContains("Sign up for TikTok").exists()'],[]);
 //get_module('');
 console.show();
+toastLog(currentActivity());
 function main(){
     while(1){
         if(currentPackage()!='com.zhiliaoapp.musically'){
@@ -29,8 +31,12 @@ function main(){
         if(登录页面.is_active()){
             //登录页面
             toastLog('登录页面');
+            idEndsWith("ebo").clickable(true).findOne(3000).click();
         }
-        toastLog();
+        if(注册页面.is_active()){
+            toastLog('注册页面');
+        }
+        toastLog('here');
         break;
     }
 }
