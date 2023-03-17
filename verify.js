@@ -41,6 +41,7 @@ function Verify(username, password){
             toastLog('识别有误');
             return false;
         }
+        toastLog(json_result);
         //开始验证
         if(verifier['type']=='拼图'){
             this.slide(verifier['slider'], parseInt(json_result[code]['data']['recognition']));
@@ -51,9 +52,11 @@ function Verify(username, password){
     this.slide = function(slider, distance){
         //滑动并判定是否完成,自动消失即为完成,否则为false
         start_x = slider.bounds().centerX();
+        console.info(start_x, distance);
+        /*
         for(let i=0; i<distance-start_x;i++){
 
-        }
+        }*/
     }
     this.clip = function(img){
         console.hide();
@@ -65,7 +68,7 @@ function Verify(username, password){
     }
     this.get = function(){
         //识别是哪种验证码,并返回对应的参数
-        if(classNameEndsWith("Dialog").exists()){
+        if(classNameEndsWith("Dialog").exists()&&textMatches(/.*Verify to continue:/).exists()){
             return {'type':'拼图', 'code': 1318, 'img': 'classNameEndsWith("Dialog").findOne(3000).child(1)', 'slider': 'classNameEndsWith("Dialog").findOne(3000).child(2).child(1)', 'slider_container': 'classNameEndsWith("Dialog").findOne(3000).child(2)'};//slider = 滑块, img=图像
         }
     }
