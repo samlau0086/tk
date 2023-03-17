@@ -7,8 +7,7 @@
  */
 //
 //
-auto();
-auto.waitFor();
+
 if(!requestScreenCapture()){
     toast('截图请求失败');
 }
