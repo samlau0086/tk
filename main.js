@@ -179,7 +179,17 @@ function main(){
         if(滑动验证弹窗.is_active()){
             toastLog('滑动验证页面');
             //toastLog(classNameEndsWith("Dialog").exists());
-            console.info(classNameEndsWith("Dialog").findOne(3000).child(1).bounds());
+            //console.info(classNameEndsWith("Dialog").findOne(3000).child(1).bounds());
+            images.save(verify.clip(classNameEndsWith("Dialog").findOne(3000).child(1)), 'cliped2.png', format='png', quality=100);
+            /*
+            img = classNameEndsWith("Dialog").findOne(3000).child(1);
+            console.info(img.bounds().left, img.bounds().top, img.bounds().width(), img.bounds().height());
+            screen = captureScreen();
+            clip_ = images.clip(screen, img.bounds().left, img.bounds().top, img.bounds().width(), img.bounds().height());
+            images.save(clip_, 'cliped.png', format='png', quality=100);
+            */
+            //images.save(clip_, 'cliped.png', format='png', quality=100);
+            //images.save(verify.clip(classNameEndsWith("Dialog").findOne(3000).child(1)), 'cliped.png', format='png', quality=100);
             //draw_focus(bounds);
         }
         if(密码填写页面.is_active()){

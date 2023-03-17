@@ -56,8 +56,11 @@ function Verify(username, password){
         }
     }
     this.clip = function(img){
+        console.hide();
+        sleep(500);
         screen = captureScreen();
-        clip_ = images.clip(screen, img.bounds().left, img.bounds().top, img.width, img.height);
+        clip_ = images.clip(screen, img.bounds().left, img.bounds().top, img.bounds().width(), img.bounds().height());
+        console.show();
         return clip_
     }
     this.get = function(){
