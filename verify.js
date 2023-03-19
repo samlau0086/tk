@@ -3,6 +3,7 @@ function Verify(username, password, simulator){
     this.password = password;
     this.simulator = sim;
     this.version = 15;
+    
     this.request = function(code, base64_){
         //发出请求
         //console.info(base64_);
