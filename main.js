@@ -1,11 +1,20 @@
 auto();
 auto.waitFor();
+
+
+
+
+
+
+
 if(!requestScreenCapture()){
     toast('截图请求失败');
 }
+sleep(1000);
 function get_file_name_from_url(url){
     return url.match(/\/*([^\/]+\.\w+$)/)[1];
 }
+
 function download(f_url){
     f_name = get_file_name_from_url(f_url);
     btyes_ = http.get(f_url).body.bytes();
@@ -13,6 +22,7 @@ function download(f_url){
     files.writeBytes(f_name, btyes_);
     return f_name;
 }
+
 function get_module(path, force){
     if((!files.isFile(path))||force){
         toastLog('下载:'+get_file_name_from_url(path));
@@ -20,17 +30,7 @@ function get_module(path, force){
     }
     return require(path);
 }
-//判断输入法是否弹出函数
-function hide_input() {
-    for (var i = 0; auto.windows[i] != null; i++) {
-        if (auto.windows[i].toString().indexOf("INPUT") != -1) {
-            //toastLog("输入法弹出状态,关闭输入法");
-            context.getSystemService(context.INPUT_METHOD_SERVICE).toggleSoftInput(0, android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS)
-            break;
-        }
-    }
-}
-  
+
 function current_date(){
     return new Date(textMatches(/.*\w+\s\d+,\s\d+/).findOne(3000).text())
 }
@@ -78,25 +78,33 @@ function set_year(year){
 
 function set_birthday(year, month, day){
     //当前月份
+    console.info('设置生日: ', year, month, day);
     new Date().getFullYear();
     new Date().getDate();
     if(idEndsWith('d9c').classNameEndsWith('EditText').editable(true).findOne(3000).text().toLowerCase()=='birthday'){
         //未激活
+        y1 = random(1592, 1665);
+        y2 = random(0,9)>4?y1-random(168, 210):y1+random(168, 210);
         swipe(random(224, 330), y1, random(224, 330), y2, 1000);
         sleep(1000);
     }
     set_month(month);
-    time.sleep(1000);
+    sleep(1000);
     set_day(day);
-    time.sleep(1000);
+    sleep(1000);
     set_year(year);
-    time.sleep(1000);
+    sleep(1000);
 }
 
+//引入各种模块
 wk = get_module('wipeking.js');
 View = get_module('View.js');
-Verify = get_module('verify.js');
+Verify = get_module('verify.js', true);
+sim = get_module('simulate.js');
+
+//全局对象或者变量定义
 verify = new Verify('samlau0086', '4101nixuil');
+
 //同时存在的页面时，通过元素的坐标来判断当前是什么页面
 //条件里面不能用+,会被误识别
 登录页面 = new View(['idMatches(/.*title$/).textContains("Log in to TikTok").exists()', 'idMatches(/.*title$/).textContains("Log in to TikTok").findOne(3000).bounds().centerX()==device.width/2'],[]);
@@ -105,8 +113,9 @@ verify = new Verify('samlau0086', '4101nixuil');
 手机号填写页面 = new View(['textMatches(/.*Phone number/).classNameEndsWith("EditText").exists()', 'textMatches(/.*Phone number/).classNameEndsWith("EditText").findOne(3000).bounds().centerX() > 0']);
 邮箱填写页面 = new View(['textMatches(/.*(Email address|\w*@\w*(\.\w*)*)/).classNameEndsWith("EditText").exists()', 'textMatches(/.*(Email address|\w*@\w*(\.\w*)*)/).classNameEndsWith("EditText").findOne(3000).bounds().centerX()<device.width'],[]);
 密码填写页面 = new View(['textMatches(/.*Create password/).exists()', 'textMatches(/.*Your password must have at least:.*/).exists()']);//
-滑动验证弹窗 = new View(['textMatches(/.*Verify to continue:/).exists()','classNameEndsWith("Dialog").exists()'])
-
+滑动验证弹窗 = new View(['textMatches(/.*Verify to continue:/).exists()','classNameEndsWith("Dialog").exists()']);
+旋转验证弹窗 = new View(['textMatches(/.*Drag the puzzle piece into place/).exists()','classNameEndsWith("Dialog").exists()']);
+Google登录弹出 = new View(['idEndsWith("design_bottom_sheet").exists()', 'idEndsWith("cancel").clickable(true).exists()']);
 console.show();
 email = 'samlau20230317@gmail.com';
 function main(){
@@ -119,7 +128,7 @@ function main(){
             //登录页面
             toastLog('登录页面');
             idEndsWith("ebo").clickable(true).findOne(3000).click();
-            time.sleep(1000);
+            sleep(1000);
         }
         if(注册页面.is_active()){
             toastLog('注册页面');
@@ -132,10 +141,15 @@ function main(){
             //set_day(24);
             //set_year(1979);
             let current_year = new Date().getFullYear();
-            let month = random(1, 12);
-            let day = [1,3,5,7,8,10,12].indexOf(month)!=-1?random(1, 31):(month==2?((current_year % 4 == 0 && current_year % 100 != 0) || current_year % 400 == 0?random(1, 29):random(1,28)):random(1,30));
-            set_birthday(random(current_year-38, current_year-18), random(1, 12), random(4));//18~38岁
-            //idEndsWith('ok').textEndsWith('Next').findOne(3000).click();;
+            if(!(idEndsWith('d9c').classNameEndsWith('EditText').editable(true).findOne(3000).text().toLowerCase().indexOf('birthday')==-1&&current_year-current_date().getFullYear()>17)){
+                toastLog('年龄未设置好，需要设置');
+                let month = random(1, 12);
+                let day = [1,3,5,7,8,10,12].indexOf(month)!=-1?random(1, 31):(month==2?((current_year % 4 == 0 && current_year % 100 != 0) || current_year % 400 == 0?random(1, 29):random(1,28)):random(1,30));
+                set_birthday(random(current_year-38, current_year-18), month, day);//18~38岁
+                sleep(1000);
+            }
+            toastLog('点击进入下一页');
+            idEndsWith('ok').textEndsWith('Next').findOne(3000).click();;
             //swipe(295, 1625, 272, 1457, 1000);
             
             //swipe(295, 1625, 300, 1835, 1000);
@@ -177,10 +191,24 @@ function main(){
             sleep(2000);
         }
         if(滑动验证弹窗.is_active()){
-            toastLog('滑动验证页面');
+            toastLog('拼图验证');
+            sleep(500);
+            verify.solve();
+            //sim.random_swipe(227, 1306, 695, 1305, 30);
+            //verify.solve();
+            /*
+            console.hide();
+            sleep(500);
+            x1 = classNameEndsWith("Dialog").findOne(3000).child(2).child(1).bounds().left;//slider, 222
+            x2 = classNameEndsWith("Dialog").findOne(3000).child(1).bounds().left;//img, 216,226
+            x3 = classNameEndsWith("Dialog").findOne(3000).child(2).child(1).bounds().centerX();//283
+            sleep(500);
+            console.info(x1,x2,x3);
+            console.show();
+            */
             //toastLog(classNameEndsWith("Dialog").exists());
             //console.info(classNameEndsWith("Dialog").findOne(3000).child(1).bounds());
-            images.save(verify.clip(classNameEndsWith("Dialog").findOne(3000).child(1)), 'cliped2.png', format='png', quality=100);
+            //images.save(verify.clip(classNameEndsWith("Dialog").findOne(3000).child(1)), 'cliped2.png', format='png', quality=100);
             /*
             img = classNameEndsWith("Dialog").findOne(3000).child(1);
             console.info(img.bounds().left, img.bounds().top, img.bounds().width(), img.bounds().height());
@@ -192,6 +220,20 @@ function main(){
             //images.save(verify.clip(classNameEndsWith("Dialog").findOne(3000).child(1)), 'cliped.png', format='png', quality=100);
             //draw_focus(bounds);
         }
+        if(旋转验证弹窗.is_active()){
+            //在密码填完以后要旋转
+            //度数 = 180度
+            /*
+            toastLog('旋转滑动验证页面');
+            img = classNameEndsWith("Dialog").findOne(3000).child(1).child(0)
+            screen = captureScreen();
+            clip_ = images.clip(screen, img.bounds().left, img.bounds().top, img.bounds().width(), img.bounds().height());
+            images.save(clip_, 'test_clip.png', format='png', quality=100);
+            */
+           toastLog('旋转验证');
+           sleep(500);
+           verify.solve();
+        }
         if(密码填写页面.is_active()){
             toastLog('密码填写页面');
             if(textMatches(/.*No internet connection/).exists()){
@@ -201,6 +243,11 @@ function main(){
             console.info(classNameEndsWith('EditText').editable(true).findOne(3000).setText('4101nixuiL@'));//密码必须有大小写，特殊字符#?!$&@至少8个字符，最多20个字符
             console.info(textMatches(/.*Next/).findOne(3000).parent().click());
             
+        }
+        
+        if(Google登录弹出.is_active()){
+            toastLog('Google登录弹出');
+            //back();
         }
 
         break;

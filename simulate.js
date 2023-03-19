@@ -167,4 +167,5 @@ sim.bezier_curves = function(cp, t) {
 /**
  * 调用方式: sim.random_swipe(100, 100, 500, 500,100);
  */
+//sim.random_swipe(282, 1268, 504, 1260,50);
 module.exports = sim;
