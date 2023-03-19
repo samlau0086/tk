@@ -2,7 +2,7 @@ function Verify(username, password, simulator){
     this.username = username;
     this.password = password;
     this.simulator = sim;
-    this.version = 16;
+    this.version = 17;
 
     this.request = function(code, base64_){
         //发出请求
@@ -92,9 +92,10 @@ function Verify(username, password, simulator){
         screen = captureScreen();
         clip_ = images.clip(screen, img.bounds().left, img.bounds().top, img.bounds().width(), img.bounds().height());
         sleep(500);
-        final_clip = images.scale(clip_, 0.5, 0.5);
-        sleep(500);
+        //final_clip = images.scale(clip_, 0.5, 0.5);
+        //sleep(500);
         console.show();
+        return clip_;
         return final_clip;
     }
     this.get = function(){
