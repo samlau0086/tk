@@ -18,8 +18,8 @@ function Verify(username, password, simulator){
             'password': this.password,
             'captchaType': code,
             'captchaData': base64_,
-        }, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
-        );
+        }
+        );//, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
         return JSON.parse(result.body.string());
         /*
         { code: 0,
