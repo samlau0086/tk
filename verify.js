@@ -2,6 +2,7 @@ function Verify(username, password, simulator){
     this.username = username;
     this.password = password;
     this.simulator = sim;
+    this.version = 14;
     this.request = function(code, base64_){
         //发出请求
         //console.info(base64_);
@@ -12,7 +13,6 @@ function Verify(username, password, simulator){
             'captchaType': code,
             'captchaData': base64_,
         });*/
-        console.info('14');
         let result = http.post('http://www.bingtop.com/ocr/upload/',{
             'username': this.username,
             'password': this.password,
@@ -104,6 +104,10 @@ function Verify(username, password, simulator){
             return {'type':'双旋转单图', 'code': 1121, 'img': 'classNameEndsWith("Dialog").findOne(3000).child(1).child(0)', 'slider': 'idEndsWith("secsdk-captcha-drag-wrapper").findOne(3000)', 'slider_container': 'classNameEndsWith("Dialog").findOne(3000).child(2)'};//slider = 滑块, img=图像
             //slider = classNameEndsWith("Dialog").findOne(3000).child(2).child(1);
         }
+    }
+    this.test = function(msg){
+        //测试版本是否生效
+        console.info(this.version);
     }
 }
 module.exports = Verify;

@@ -231,6 +231,8 @@ function main(){
             images.save(clip_, 'test_clip.png', format='png', quality=100);
             */
            toastLog('旋转验证');
+           console.info(classNameEndsWith("Dialog").findOne(3000).child(2).bounds().right);
+           console.info(idEndsWith("secsdk-captcha-drag-wrapper").findOne(3000).bounds().right);
            sleep(500);
            verify.solve();
         }
