@@ -33,12 +33,12 @@ function Verify(username, password, simulator){
         let verifier = this.get();
         let clip_ = this.clip(eval(verifier['img']));
         let json_result = this.request(verifier['code'], images.toBase64(clip_));
-        if(json_result[code] != 0){
+        if(json_result['code'] != 0){
             toastLog('错误');
             console.error(json_result);
             return false;
         }
-        if(json_result[code]['data']['recognition']=='error'){
+        if(json_result['code']['data']['recognition']=='error'){
             toastLog('识别有误');
             return false;
         }
