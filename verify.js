@@ -4,8 +4,15 @@ function Verify(username, password, simulator){
     this.simulator = sim;
     this.request = function(code, base64_){
         //发出请求
-        console.info(base64_);
-        let result = http.postJson('http://www.bingtop.com/ocr/upload/',{
+        //console.info(base64_);
+        /*
+        let result = http.postJson('https://www.bingtop.com/ocr/upload/',{
+            'username': this.username,
+            'password': this.password,
+            'captchaType': code,
+            'captchaData': base64_,
+        });*/
+        let result = http.post('https://www.bingtop.com/ocr/upload/',{
             'username': this.username,
             'password': this.password,
             'captchaType': code,
