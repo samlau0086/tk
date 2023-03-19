@@ -2,7 +2,7 @@ function Verify(username, password, simulator){
     this.username = username;
     this.password = password;
     this.simulator = sim;
-    this.version = 14;
+    this.version = 15;
     this.request = function(code, base64_){
         //发出请求
         //console.info(base64_);
@@ -68,7 +68,7 @@ function Verify(username, password, simulator){
             this.slide(slider, parseInt(json_result['data']['recognition']));
         }else if(verifier['type']=='双旋转单图'){
             slider_container = eval(verifier['slider_container']);
-            this.slide(slider, parseInt(parseInt(json_result['data']['recognition'])*parseFloat((slider_container.bounds().right-slider.bounds().right)/180)));
+            this.slide(slider, parseInt(parseInt(json_result['data']['recognition'])*parseFloat((slider_container.bounds().right-slider.bounds().right)/180))+10);
         }
         sleep(2000);
         //json_result[code]['data']['recognition'];
