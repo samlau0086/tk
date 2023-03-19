@@ -12,7 +12,7 @@ function Verify(username, password, simulator){
             'captchaType': code,
             'captchaData': base64_,
         });*/
-        console.info('8');
+        console.info('9');
         let result = http.post('http://www.bingtop.com/ocr/upload/',{
             'username': this.username,
             'password': this.password,
@@ -62,6 +62,7 @@ function Verify(username, password, simulator){
         }
         toastLog(json_result);
         //开始验证
+        console.info(verifier['slider']);
         slider = eval(verifier['slider']);
         if(verifier['type']=='拼图'){
             this.slide(slider, parseInt(json_result['data']['recognition']));
