@@ -12,7 +12,7 @@ function Verify(username, password, simulator){
             'captchaType': code,
             'captchaData': base64_,
         });*/
-        console.info('4');
+        console.info('5');
         let result = http.post('http://www.bingtop.com/ocr/upload/',{
             'username': this.username,
             'password': this.password,
@@ -23,6 +23,9 @@ function Verify(username, password, simulator){
         result_str = result.body.string();
         console.info(result_str);
         console.info(typeof(result_str));
+        if(typeof(result_str)=='string'){
+            return JSON.parse(result_str);
+        }
         return result_str;
         return JSON.parse(result.body.string());
         /*
@@ -47,6 +50,7 @@ function Verify(username, password, simulator){
         let verifier = this.get();
         let clip_ = this.clip(eval(verifier['img']));
         let json_result = this.request(verifier['code'], images.toBase64(clip_));
+        console.info(json_result);
         if(json_result['code'] != 0){
             toastLog('错误');
             console.error(json_result);
