@@ -1,26 +1,19 @@
 function Verify(username, password, simulator){
-    this.username = username;
-    this.password = password;
-    this.simulator = sim;
-    this.version = 17;
+    //打码平台: https://www.bingtop.com/
+    this.username = username;//打码平台用户名
+    this.password = password;//打码平台密码
+    this.simulator = simulator;//模拟真人的simualte对象实例
+    this.version = 18;//版本号，在修改完以后，此处的版本号需要变更
 
     this.request = function(code, base64_){
         //发出请求
-        //console.info(base64_);
-        /*
-        let result = http.postJson('https://www.bingtop.com/ocr/upload/',{
-            'username': this.username,
-            'password': this.password,
-            'captchaType': code,
-            'captchaData': base64_,
-        });*/
         let result = http.post('http://www.bingtop.com/ocr/upload/',{
             'username': this.username,
             'password': this.password,
             'captchaType': code,
             'captchaData': base64_,
         }, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
-        );//, 
+        );
         result_str = result.body.string();
         console.info(result_str);
         console.info(typeof(result_str));
@@ -28,22 +21,6 @@ function Verify(username, password, simulator){
             return JSON.parse(result_str);
         }
         return result_str;
-        /*
-        { code: 0,
-        message: '',
-        data: 
-        { captchaId: '1122-12376695-5512-4f33-b0f0-214cfa472a9f',
-            captchaType: '1122',
-            recognition: 'error' } }
-            */
-        /*
-        { code: 0,
-        message: '',
-        data: 
-        { captchaId: '1121-35c7c59e-f569-44ec-b32d-463f1973efb2',
-            captchaType: '1121',
-            recognition: '112' } }
-        */
     }
     this.solve = function(){
         //主逻辑，主流程
@@ -72,12 +49,8 @@ function Verify(username, password, simulator){
             this.slide(slider, parseInt(parseInt(json_result['data']['recognition'])*parseFloat((slider_container.bounds().right-slider.bounds().right)/180))+10);
         }
         sleep(2000);
-        //json_result[code]['data']['recognition'];
-
     }
     this.slide = function(slider, distance){
-        //识别位置: https://www.jianshu.com/p/6b561a5776c4 通过多点找图找色的方式来找到最左侧的点的位置
-        //滑动参考: https://www.d1blog.com/autojs/1752.html
         //滑动并判定是否完成,自动消失即为完成,否则为false
         start_x = random(parseInt(slider.bounds().centerX()-slider.bounds().width()/3), parseInt(slider.bounds().centerX()+slider.bounds().width()/3));
         start_y = random(parseInt(slider.bounds().centerY()-slider.bounds().height()/3), parseInt(slider.bounds().centerY()+slider.bounds().height()/3));
@@ -87,16 +60,13 @@ function Verify(username, password, simulator){
         this.simulator.random_swipe(start_x, start_y, end_x, end_y, random(25, 50));
     }
     this.clip = function(img){
-        console.hide();
+        console.hide();//隐藏调试框以防遮挡
         sleep(500);
         screen = captureScreen();
         clip_ = images.clip(screen, img.bounds().left, img.bounds().top, img.bounds().width(), img.bounds().height());
         sleep(500);
-        //final_clip = images.scale(clip_, 0.5, 0.5);
-        //sleep(500);
         console.show();
         return clip_;
-        return final_clip;
     }
     this.get = function(){
         //识别是哪种验证码,并返回对应的参数
@@ -104,7 +74,6 @@ function Verify(username, password, simulator){
             return {'type':'拼图', 'code': 1318, 'img': 'classNameEndsWith("Dialog").findOne(3000).child(1)', 'slider': 'idEndsWith("secsdk-captcha-drag-wrapper").findOne(3000)', 'slider_container': 'classNameEndsWith("Dialog").findOne(3000).child(2)'};//slider = 滑块, img=图像
         }else if(classNameEndsWith("Dialog").exists()&&textMatches(/.*Drag the puzzle piece into place/).exists()){
             return {'type':'双旋转单图', 'code': 1121, 'img': 'classNameEndsWith("Dialog").findOne(3000).child(1).child(0)', 'slider': 'idEndsWith("secsdk-captcha-drag-wrapper").findOne(3000)', 'slider_container': 'classNameEndsWith("Dialog").findOne(3000).child(2)'};//slider = 滑块, img=图像
-            //slider = classNameEndsWith("Dialog").findOne(3000).child(2).child(1);
         }
     }
     this.test = function(msg){
