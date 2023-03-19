@@ -12,7 +12,7 @@ function Verify(username, password, simulator){
             'captchaType': code,
             'captchaData': base64_,
         });*/
-        console.info('10');
+        console.info('11');
         let result = http.post('http://www.bingtop.com/ocr/upload/',{
             'username': this.username,
             'password': this.password,
@@ -68,7 +68,7 @@ function Verify(username, password, simulator){
             this.slide(slider, parseInt(json_result['data']['recognition']));
         }else if(verifier['type']=='双旋转单图'){
             slider_container = eval(verifier['slider_container']);
-            this.slide(slider, parseInt(json_result['data']['recognition'])*(slider_container.bounds().width()-slider.bounds().right)/180);
+            this.slide(slider, parseInt(json_result['data']['recognition'])*(slider_container.bounds().width()-slider.bounds().right)/180+10);
         }
         sleep(2000);
         //json_result[code]['data']['recognition'];
