@@ -71,6 +71,7 @@ function Verify(username, password, simulator){
         sleep(500);
         screen = captureScreen();
         clip_ = images.clip(screen, img.bounds().left, img.bounds().top, img.bounds().width(), img.bounds().height());
+        clip_ = images.scale(clip_, 0.5, 0.5);
         console.show();
         return clip_
     }
