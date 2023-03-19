@@ -18,7 +18,8 @@ function Verify(username, password, simulator){
             'password': this.password,
             'captchaType': code,
             'captchaData': base64_,
-        });
+        }, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+        );
         return JSON.parse(result.body.string());
         /*
         { code: 0,
@@ -47,6 +48,7 @@ function Verify(username, password, simulator){
             console.error(json_result);
             return false;
         }
+        console.info(json_result['code']);
         if(json_result['code']['data']['recognition']=='error'){
             toastLog('识别有误');
             return false;
