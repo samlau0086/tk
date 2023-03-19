@@ -12,7 +12,7 @@ function Verify(username, password, simulator){
             'captchaType': code,
             'captchaData': base64_,
         });*/
-        console.info('9');
+        console.info('10');
         let result = http.post('http://www.bingtop.com/ocr/upload/',{
             'username': this.username,
             'password': this.password,
@@ -101,7 +101,7 @@ function Verify(username, password, simulator){
         if(classNameEndsWith("Dialog").exists()&&textMatches(/.*Verify to continue:/).exists()){
             return {'type':'拼图', 'code': 1318, 'img': 'classNameEndsWith("Dialog").findOne(3000).child(1)', 'slider': 'classNameEndsWith("Dialog").findOne(3000).child(2).child(1)', 'slider_container': 'classNameEndsWith("Dialog").findOne(3000).child(2)'};//slider = 滑块, img=图像
         }else if(classNameEndsWith("Dialog").exists()&&textMatches(/.*Drag the puzzle piece into place/).exists()){
-            return {'type':'双旋转单图', 'code': 1121, 'img': 'classNameEndsWith("Dialog").findOne(3000).child(1).child(0)', 'slider': 'classNameEndsWith("Dialog").findOne(3000).child(2).child(1)', 'slider_container': 'classNameEndsWith("Dialog").findOne(3000).child(2)'};//slider = 滑块, img=图像
+            return {'type':'双旋转单图', 'code': 1121, 'img': 'classNameEndsWith("Dialog").findOne(3000).child(1).child(0)', 'slider': 'classNameEndsWith("Dialog").findOne(3000).child(2).child(0)', 'slider_container': 'classNameEndsWith("Dialog").findOne(3000).child(2)'};//slider = 滑块, img=图像
         }
     }
 }
