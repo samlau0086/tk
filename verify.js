@@ -2,8 +2,8 @@ function Verify(username, password, simulator){
     this.username = username;
     this.password = password;
     this.simulator = sim;
-    this.version = 15;
-    
+    this.version = 16;
+
     this.request = function(code, base64_){
         //发出请求
         //console.info(base64_);
@@ -100,7 +100,7 @@ function Verify(username, password, simulator){
     this.get = function(){
         //识别是哪种验证码,并返回对应的参数
         if(classNameEndsWith("Dialog").exists()&&textMatches(/.*Verify to continue:/).exists()){
-            return {'type':'拼图', 'code': 1318, 'img': 'classNameEndsWith("Dialog").findOne(3000).child(1)', 'slider': 'classNameEndsWith("Dialog").findOne(3000).child(2).child(1)', 'slider_container': 'classNameEndsWith("Dialog").findOne(3000).child(2)'};//slider = 滑块, img=图像
+            return {'type':'拼图', 'code': 1318, 'img': 'classNameEndsWith("Dialog").findOne(3000).child(1)', 'slider': 'idEndsWith("secsdk-captcha-drag-wrapper").findOne(3000)', 'slider_container': 'classNameEndsWith("Dialog").findOne(3000).child(2)'};//slider = 滑块, img=图像
         }else if(classNameEndsWith("Dialog").exists()&&textMatches(/.*Drag the puzzle piece into place/).exists()){
             return {'type':'双旋转单图', 'code': 1121, 'img': 'classNameEndsWith("Dialog").findOne(3000).child(1).child(0)', 'slider': 'idEndsWith("secsdk-captcha-drag-wrapper").findOne(3000)', 'slider_container': 'classNameEndsWith("Dialog").findOne(3000).child(2)'};//slider = 滑块, img=图像
             //slider = classNameEndsWith("Dialog").findOne(3000).child(2).child(1);
