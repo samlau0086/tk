@@ -12,14 +12,14 @@ function Verify(username, password, simulator){
             'captchaType': code,
             'captchaData': base64_,
         });*/
-        console.info('5');
+        console.info('6');
         let result = http.post('http://www.bingtop.com/ocr/upload/',{
             'username': this.username,
             'password': this.password,
             'captchaType': code,
             'captchaData': base64_,
-        }
-        );//, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+        }, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+        );//, 
         result_str = result.body.string();
         console.info(result_str);
         console.info(typeof(result_str));
@@ -27,7 +27,6 @@ function Verify(username, password, simulator){
             return JSON.parse(result_str);
         }
         return result_str;
-        return JSON.parse(result.body.string());
         /*
         { code: 0,
         message: '',
@@ -57,7 +56,7 @@ function Verify(username, password, simulator){
             return false;
         }
         console.info(json_result['code']);
-        if(json_result['code']['data']['recognition']=='error'){
+        if(json_result['data']['recognition']=='error'){
             toastLog('识别有误');
             return false;
         }
@@ -65,10 +64,10 @@ function Verify(username, password, simulator){
         //开始验证
         slider = eval(verifier['slider']);
         if(verifier['type']=='拼图'){
-            this.slide(slider, parseInt(json_result[code]['data']['recognition']));
+            this.slide(slider, parseInt(json_result['data']['recognition']));
         }else if(verifier['type']=='双旋转单图'){
             slider_container = eval(verifier['slider_container']);
-            this.slide(slider, parseInt(json_result[code]['data']['recognition'])*(slider_container.bounds().width()-slider.bounds().right())/180);
+            this.slide(slider, parseInt(json_result['data']['recognition'])*(slider_container.bounds().width()-slider.bounds().right())/180);
         }
         sleep(2000);
         //json_result[code]['data']['recognition'];
