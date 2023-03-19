@@ -12,7 +12,7 @@ function Verify(username, password, simulator){
             'captchaType': code,
             'captchaData': base64_,
         });*/
-        let result = http.post('https://www.bingtop.com/ocr/upload/',{
+        let result = http.post('http://www.bingtop.com/ocr/upload/',{
             'username': this.username,
             'password': this.password,
             'captchaType': code,
