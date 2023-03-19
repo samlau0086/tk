@@ -4,6 +4,7 @@ function Verify(username, password, simulator){
     this.simulator = sim;
     this.request = function(code, base64_){
         //发出请求
+        console.info(base64_);
         let result = http.postJson('http://www.bingtop.com/ocr/upload/',{
             'username': this.username,
             'password': this.password,
@@ -71,9 +72,11 @@ function Verify(username, password, simulator){
         sleep(500);
         screen = captureScreen();
         clip_ = images.clip(screen, img.bounds().left, img.bounds().top, img.bounds().width(), img.bounds().height());
-        clip_ = images.scale(clip_, 0.5, 0.5);
+        sleep(500);
+        final_clip = images.scale(clip_, 0.5, 0.5);
+        sleep(500);
         console.show();
-        return clip_
+        return final_clip;
     }
     this.get = function(){
         //识别是哪种验证码,并返回对应的参数
