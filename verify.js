@@ -7,8 +7,8 @@ function Verify(username, password, simulator){
         let result = http.postJson('http://www.bingtop.com/ocr/upload/',{
             'username': this.username,
             'password': this.password,
-            'captchaData': base64_,
             'captchaType': code,
+            'captchaData': base64_,
         });
         return JSON.parse(result.body.string());
         /*
