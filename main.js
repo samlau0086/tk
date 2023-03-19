@@ -276,4 +276,3 @@ function reg(){
 wk.clear_data();
 
 //reg();
-toastLog('结束');
