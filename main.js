@@ -17,6 +17,13 @@ function download(f_url){
     return f_name;
 }
 
+function append_to_file(path, content){
+    if(!files.exists(path)){
+        files.createWithDirs(path);
+    }
+    files.append(path, content);
+}
+
 function get_module(path, force){
     if((!files.isFile(path))||force){
         toastLog('下载:'+get_file_name_from_url(path));
@@ -87,6 +94,39 @@ function set_birthday(year, month, day){
     set_year(year);
     sleep(1000);
 }
+const firstNames = [
+    'Emma', 'Olivia', 'Ava', 'Sophia', 'Isabella', 'Mia', 'Charlotte', 'Amelia', 'Harper', 'Evelyn', 'Abigail', 'Emily', 'Elizabeth', 'Madison', 'Avery', 'Ella', 'Scarlett', 'Victoria', 'Grace', 'Chloe', 'Aria', 'Lily', 'Zoey', 'Penelope', 'Layla', 'Riley', 'Stella', 'Aurora', 'Hannah', 'Natalie', 'Lila', 'Audrey', 'Savannah', 'Addison', 'Brooklyn', 'Ellie', 'Paisley', 'Arianna', 'Caroline', 'Elena', 'Maya', 'Gabby', 'Brielle', 'Leah', 'Addison', 'Mackenzie', 'Hailey', 'Katherine', 'Samantha', 'Morgan', 'Ava', 'Scarlett', 'Madison', 'Elizabeth', 'Isabella', 'Michael', 'William', 'James', 'Benjamin', 'Elijah', 'Lucas', 'Mason', 'Ethan', 'Alexander', 'Henry', 'Sebastian', 'Jackson', 'Aiden', 'Daniel', 'Matthew', 'Samuel', 'David', 'Joseph', 'Carter', 'Owen', 'Wyatt', 'Gabriel', 'Julian', 'Leo', 'Levi', 'Aaron', 'Dylan', 'Caleb', 'Connor', 'Hunter', 'Nicholas', 'Zachary', 'Nolan', 'Adam', 'Cole', 'Ian', 'Eli', 'Cameron', 'Xavier', 'Vincent', 'Christopher', 'Jaxon', 'Grayson', 'Lincoln', 'Isaiah','John', 'Jon', 'Jack', 'Johnny', 'Jonathan', 'Johannes', 'James', 'Jamie', 'Jim', 'Jimmy', 'Jaime', 'Jem', 'William', 'Will', 'Bill', 'Billy', 'Liam', 'Willy', 'Robert', 'Bob', 'Bobby', 'Rob', 'Robbie', 'Rupert', 'Michael', 'Mike', 'Mikey', 'Mick', 'Micky', 'Mikhail', 'David', 'Dave', 'Davy', 'Davie', 'Davida', 'Daivid', 'Christopher', 'Chris', 'Christie', 'Christy', 'Topher', 'Kester', 'Daniel', 'Dan', 'Danny', 'Dane', 'Dani', 'Danté', 'Matthew', 'Matt', 'Matty', 'Mat', 'Mathew', 'Matteo', 'Joseph', 'Joe', 'Joey', 'Jo', 'José', 'Joss', 'Richard', 'Rick', 'Ricky', 'Rich', 'Richie', 'Rico', 'Thomas', 'Tom', 'Tommy', 'Tomás', 'Thoma', 'Tomas', 'Charles', 'Charlie', 'Chuck', 'Chas', 'Charley', 'Carlo', 'Anthony', 'Tony', 'Antony', 'Anton', 'Antonio', 'Antoin', 'Edward', 'Ed', 'Eddie', 'Eddy', 'Eduardo', 'Edwin', 'George', 'Georgie', 'Georgy', 'Georg', 'Jorge', 'Giorgio', 'Steven', 'Steve', 'Stevie', 'Stefan', 'Stephen', 'Stefanos', 'Brian', 'Bryan', 'Bryon', 'Brion', 'Brain', 'Brayan', 'Kevin', 'Kev', 'Kevvy', 'Kevan', 'Keven', 'Kevein', 'Andrew', 'Andy', 'Drew', 'Andreas', 'Andre', 'Andrius', 'Mark', 'Marc', 'Marcus', 'Marko', 'Markie', 'Marques', 'Paul', 'Paolo', 'Paulie', 'Poul', 'Pauly', 'Poll', 'Stephen', 'Steve', 'Stevie', 'Stefan', 'Steven', 'Stefanos', 'Timothy', 'Tim', 'Timmy', 'Timo', 'Timoteo', 'Tymon', 'Kenneth', 'Ken', 'Kenny', 'Kenn', 'Kendrick', 'Kennith', 'Jason', 'Jay', 'Jase', 'Jaison', 'Jasen', 'Jasón', 'Eric', 'Erik', 'Erick', 'Eryk', 'Erico', 'Eriq', 'Anthony', 'Tony', 'Antony', 'Anton', 'Antonio', 'Antoin', 'Jonathan', 'Jon', 'Jonny', 'Johnathan', 'Jonatan', 'Jonty', 'William', 'Will', 'Billy', 'Bill', 'Liam', 'Willy', 'Benjamin', 'Ben', 'Benny', 'Benjy', 'Benji', 'Benjaman', 'Nicholas', 'Nick', 'Nicky', 'Nico', 'Nikolai', 'Nikolas', 'Samuel', 'Sam', 'Sammy', 'Sami', 'Samson', 'Samuele', 'Jeffrey', 'Jeff', 'Jeffery', 'Jeffry', 'Geffrey', 'Joffrey', 'Scott', 'Scot', 'Scotty', 'Scottie', 'Scotti', 'Scotta', 'Joseph', 'Joe', 'Joey', 'Jo', 'José', 'Joss', 'Patrick', 'Pat', 'Paddy', 'Patsy', 'Pate', 'Padraig', 'Anthony', 'Tony', 'Antony', 'Anton', 'Antonio', 'Antoin'
+];
+  
+const lastNames = [
+    'Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Miller', 'Davis', 'Garcia', 'Rodriguez', 'Martinez', 'Hernandez', 'Lopez', 'Gonzalez', 'Perez', 'Taylor', 'Anderson', 'Wilson', 'Jackson', 'White', 'Harris', 'Martin', 'Thompson', 'Moore', 'Young', 'Allen', 'King', 'Wright', 'Scott', 'Green', 'Baker', 'Adams', 'Nelson', 'Carter', 'Mitchell', 'Perez', 'Roberts', 'Turner', 'Phillips', 'Campbell', 'Parker', 'Evans', 'Edwards', 'Collins', 'Stewart', 'Sanchez', 'Morris', 'Rogers', 'Reed', 'Cook', 'Cooper', 'Bailey', 'Butler', 'Murphy', 'Gray', 'Cox', 'James', 'Reyes', 'Cruz', 'Hughes', 'Price', 'Myers', 'Flores', 'Long', 'Powell', 'Sullivan', 'Jenkins', 'Wood', 'Kim', 'Ward', 'Foster', 'Gonzales', 'Bryant', 'Alexander', 'Russell', 'Griffin', 'Diaz', 'Hayes', 'Holland', 'Vargas', 'Holland', 'Mcdonald', 'Mendoza', 'Montgomery', 'Luna', 'Freeman', 'Wells', 'Webb', 'Simpson', 'Porter', 'Hunter', 'Hicks', 'Crawford', 'Henry', 'Boyd', 'Mason', 'Robertson', 'Black', 'Holmes', 'Stone', 'Summers', 'Smith', 'Smyth', 'Schmidt', 'Schmitt', 'Smithe', 'Smythe', 'Johnson', 'Johnston', 'Johnstone', 'Jonson', 'Williams', 'Williamson', 'William', 'Wilms', 'Wiliams', 'Brown', 'Browne', 'Braun', 'Broun', 'Jones', 'Jonas', 'Johnston', 'Johnes', 'Joanes', 'Miller', 'Millar', 'Muller', 'Mueller', 'Milner', 'Davis', 'Davies', 'Davids', 'Davy', 'Garcia', 'Garza', 'Garci', 'Garzia', 'Garciaparra', 'Rodriguez', 'Rodriquez', 'Rodrigues', 'Rodrigue', 'Rodrique', 'Martinez', 'Martin', 'Martine', 'Martinet', 'Martines', 'Hernandez', 'Fernandez', 'Hernandes', 'Hernandis', 'Hernand', 'Lopez', 'Lopes', 'Lopaz', 'Lopa', 'Lopess', 'Gonzalez', 'Gonzales', 'Gonzalesz', 'Gonsalez', 'Gonsales', 'Perez', 'Perezza', 'Pera', 'Perre', 'Perres', 'Taylor', 'Tayler', 'Taylour', 'Tailor', 'Taelor', 'Anderson', 'Andeson', 'Andreason', 'Andersson', 'Andrus', 'Wilson', 'Wilsen', 'Wilsson', 'Wilsin', 'Willson', 'Jackson', 'Jakson', 'Jaxon', 'Jacksen', 'Jacksin', 'White', 'Whyte', 'Wight', 'Wite', 'Whight', 'Harris', 'Haris', 'Harriss', 'Harries', 'Harrys', 'Martin', 'Marten', 'Martyn', 'Martine', 'Marton', 'Thompson', 'Thomson', 'Tomson', 'Thomason', 'Thompsen', 'Moore', 'More', 'Moor', 'Moors', 'Mores', 'Young', 'Yong', 'Yung', 'Younge', 'Youngs', 'Allen', 'Allan', 'Allan', 'Alen', 'Allens', 'King', 'Kings', 'Kington', 'Kinge', 'Kingsley', 'Wright', 'Writ', 'Wriht', 'Write', 'Wryt', 'Scott', 'Scot', 'Scotte', 'Scotto', 'Scotty', 'Green', 'Greene', 'Grean', 'Grein', 'Greyn', 'Baker', 'Bakker', 'Bakers', 'Bake', 'Bak', 'Adams', 'Adam', 'Addams', 'Addam', 'Adames', 'Nelson', 'Nelsen', 'Nellson', 'Nels', 'Nelsan', 'Carter', 'Cartier', 'Carters', 'Carther', 'Cartar', 'Mitchell', 'Mitchel', 'Mitchelle', 'Mitchells', 'Mitchells', 'Perez', 'Peres', 'Parez', 'Parezz', 'Parej', 'Roberts', 'Robert', 'Robers', 'Robberts', 'Robarts', 'Turner', 'Turnor', 'Turnar', 'Turnir', 'Turnere', 'Phillips', 'Philip', 'Phillip', 'Philips', 'Phillis', 'Campbell', 'Cambell', 'Camble', 'Campell', 'Campbel', 'Parker', 'Park', 'Parkes', 'Parks', 'Parkar', 'Evans', 'Evens', 'Evins', 'Evanes', 'Evan', 'Edwards', 'Edward', 'Edwardes', 'Edwardson', 'Edwardsen', 'Collins', 'Collin', 'Collings', 'Collinns', 'Collinss', 'Stewart', 'Stuart', 'Steward', 'Stewert', 'Stewort', 'Sanchez', 'Sanche', 'Sancho', 'Sanches', 'Sanch', 'Morris', 'Moris', 'Moriss', 'Morriss', 'Morries', 'Rogers', 'Roger', 'Rodger', 'Rodgerson', 'Rodgerrs', 'Reed', 'Reid', 'Reede', 'Reeder', 'Reade', 'Cook', 'Cooke', 'Cooks', 'Coox', 'Cok', 'Cooper', 'Coper', 'Coopr', 'Coopper', 'Coopar', 'Bailey', 'Bailley', 'Baile', 'Bail', 'Bailie', 'Butler', 'Butlar', 'Butlers', 'Butlerr', 'Butlars', 'Murphy', 'Murphey', 'Murphie', 'Murfey', 'Murphee', 'Gray', 'Grey', 'Graye', 'Graey', 'Grai', 'Cox', 'Coxe', 'Coxx', 'Cocks', 'Coxs', 'James', 'Jamie', 'Jaimie', 'Jame', 'Jaimes', 'Reyes', 'Reys', 'Rayes', 'Reye', 'Reis', 'Cruz', 'Kruz', 'Cruise', 'Cruze', 'Cruse', 'Hughes', 'Huges', 'Hughe', 'Hugh', 'Hughs', 'Price', 'Pryce', 'Prise', 'Prys', 'Prisee', 'Myers', 'Myer', 'Meyers', 'Meyr', 'Mayers', 'Flores', 'Floris', 'Flor', 'Florez', 'Floress', 'Long', 'Longe', 'Longs', 'Longes', 'Longue', 'Powell', 'Powel', 'Pow'
+];
+
+const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+function get_random_name() {
+    return [firstNames[Math.floor(Math.random() * firstNames.length)], lastNames[Math.floor(Math.random() * lastNames.length)]];
+}
+
+function get_random_str(length) {
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
+function get_user(domain){
+    domain = domain?domain:'kuajingbay.com';
+    date = new Date();
+    month = date.getMonth() + 1;
+    day = date.getDate();
+    year = date.getFullYear();
+    random_str = get_random_str(3);
+    random_v = `${month}${day}${random_str}`;
+    nickname = (get_random_name().join('')+random_v).toLowerCase();
+    return {'email': `${nickname}@${domain}`, 'password': '4101nixuil', 'nickname': nickname};
+}
 
 //引入各种模块
 wk = get_module('wipeking.js');
@@ -95,6 +135,7 @@ Verify = get_module('verify.js');//, true
 sim = get_module('simulate.js');
 
 //全局对象或者变量定义
+//verify = new Verify('打码平台用户名', '打码平台密码', sim);
 verify = new Verify('samlau0086', '4101nixuil', sim);
 
 //同时存在的页面时，通过元素的坐标来判断当前是什么页面
@@ -114,8 +155,9 @@ Swipeup页面 = new View(['textMatches(/.*Start watching/).exists()','textMatche
 Swipeupformore页面 = new View(['textMatches(/.*Swipe up for more/).exists()', 'textMatches(/.*For You/).exists()']);
 ForYou页面 = new View(['']);
 console.show();
-email = 'samlaua20230317@gmail.com';
-username = 'samlaua20230317';
+
+//在注册完以后用户名和密码要存起来,用记事本存起来就行
+//注册完以后需要邮件验证
 
 function sml_swipe(down){//默认都是up,即不指定或者为0,要向下滑则传入down = true/1
     x1 = random(parseInt(device.width/9), parseInt(device.width*8/9));
@@ -137,11 +179,30 @@ function sml_swipe(down){//默认都是up,即不指定或者为0,要向下滑则
     sim.sml_move(x1, y1, x2, y2, random(200, 280));
 }
 
-function reg(){
+function switch_ip(host,port){
+    toast('切换IP');
+    try{
+        result = JSON.parse(http.get(host+'/api/refresh_sessions/'+port).body.string());
+        if(result['session_id']){
+            sleep(2000);
+            toast('IP切换成功');
+            return result['session_id'];
+        }
+    }catch(err){
+        console.error(result);
+    }
+    return false;
+}
+
+function reg(userinfo){
     while(1){
         if(currentPackage()!='com.zhiliaoapp.musically'){
             //未启动tiktok
             app.launch('com.zhiliaoapp.musically');
+            for(let i=0; i< 3; i++){
+                idEndsWith('button1').textContains('Accept').exists();
+            }
+            
         }
         if(登录页面.is_active()){
             //登录页面
@@ -188,7 +249,7 @@ function reg(){
                     boundsInside(email_edit_text.bounds().right, email_edit_text.bounds().top, device.width, email_edit_text.bounds().bottom).classNameEndsWith("ImageView").clickable(true).findOne(3000).click();
                     sleep(500);
                 }
-                email_edit_text.setText(email);
+                email_edit_text.setText(userinfo['email']);
             }
             sleep(1000);
             textMatches(/.*Next/).classNameEndsWith('TextView').findOne(3000).parent().click();
@@ -215,7 +276,7 @@ function reg(){
             }else if(textMatches(/.*Something went wrong. Try again later./).exists()){
                 toastLog('Something went wrong');
             }
-            classNameEndsWith('EditText').editable(true).findOne(3000).setText('4101nixuiL@');//密码必须有大小写，特殊字符#?!$&@至少8个字符，最多20个字符
+            classNameEndsWith('EditText').editable(true).findOne(3000).setText(userinfo['password']);//密码必须有大小写，特殊字符#?!$&@至少8个字符，最多20个字符
             console.info(textMatches(/.*Next/).findOne(3000).parent().click());
             
         }
@@ -229,7 +290,7 @@ function reg(){
             if(textMatches(/.*Add your nickname/).exists()){
                 toastLog('填写用户名');
                 textMatches(/.*Add your nickname/).findOne(3000).click();
-                username.split('').forEach(function(a){
+                userinfo['nickname'].split('').forEach(function(a){
                     sleep(random(100, 900));
                     Text(a);
                 });
@@ -267,12 +328,70 @@ function reg(){
             }
             sml_swipe();
             sleep(800);
+            return true;
             //textMatches(/.*Start watching/).findOne(3000).click();
         }
-        break;
     }
 }
 //主流程
-wk.clear_data();
+function main(stp){
+    while(1){
+        console.info(stp);
+        if(stp == '开始'){
+            if(currentPackage()=='com.zhiliaoapp.musically'){
+                toastLog('在TK界面上,返回桌面，清除数据');
+                home();
+                wk.clear_data();
+                continue;
+            }
+            stp = '切换IP';
+        }
+        if(stp == '切换IP'){
+            if(switch_ip('192.168.1.176:22999', 24000)){
+                stp = '开始注册';
+            }
+        }
+        if(stp == '开始注册'){
+            userinfo = get_user();
+            console.info(userinfo);
+            if(!reg(userinfo)){
+                stp = '注册失败';
+            }else{
+                stp = '注册完成';
+            }
+            home();
+        }
+        if(stp == '注册失败'){
+            wk.clear_data();//清除缓存并创建新环境
+            stp = '开始';
+        }
+        if(stp == '注册完成'){
+            //修改profile;
+            wk.change_profile_name(wk.get_profile_path(), userinfo['email']);
+            wk.clear_data();//清除缓存并创建新环境
+            stp = '开始';
+        }
+    }
+    
+}
+threads.start(function(){
+    //这个线程主要用来处理一些意外的情况
+    while(1){
+        if(idEndsWith('button1').textContains('Accept').exists()){
+            idEndsWith('button1').textContains('Accept').findOne(3000).click();
+        }
+    }
+    
+});
 
-//reg();
+main('开始');
+/*
+userinfo = get_user();
+old_path = wk.get_profile_path();
+console.info(old_path);
+new_name = userinfo['email'].replace(/[^\w]+/g, '_');
+console.info(new_name)
+wk.change_profile_name(old_path, new_name);
+wk.clear_data();
+*/
+//main('开始');

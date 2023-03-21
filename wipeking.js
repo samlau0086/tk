@@ -89,7 +89,7 @@ wk.change_profile_name = function(old_path,new_name){//原路径
     if(result.RespCode>=0){
         return new_path;
     }
-    console.warn(result.Message);
+    //console.warn(result.Message);
     return original_path;
 }
 wk.test = function(){
