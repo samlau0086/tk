@@ -81,7 +81,8 @@ wk.change_profile_name = function(old_path,new_name){//原路径
     var path_reg = /((\/[^\/]+)+\/)([^\/]+)/ig;
     var path_base = path_reg.exec(original_path)[1].trim();
     var new_path = path_base+new_name;
-    var r = http.get('http://127.0.0.1:8181/api?reqCode=7014&configName='+old_name+'&updateConfigName='+new_name);
+    console.info('<<<<<<<<<<<<<'+old_name.replace(/\.wpk/, '')+'>>>>>>>>>>>>>>');
+    var r = http.get('http://127.0.0.1:8181/api?reqCode=7014&configName='+old_name.replace(/\.wpk/, '')+'&updateConfigName='+new_name);
     if(r.statusCode!=200){
         console.warn("修改失败，请检查WPK是否在运行");
         return original_path;
