@@ -68,21 +68,19 @@ wk.get_profile_path = function(){//获取当前环境路径
 }
 
 wk.change_profile_name = function(old_path,new_name){//原路径
-    var reg = /(\/[^\/]+)+\/([^\/]+)/ig;
     var original_path = old_path;
     try{
-        var old_name = reg.exec(old_path)[2].trim();
+        var old_name = /[^\/]+(?=\.wpk)/i.exec(old_path)[0].trim().replace(/\.wpk/, '');
     }catch(e){
         console.warn('old_path有变化');
         console.info(old_path);
-        var old_name = old_path.ConfigName;
+        var old_name = old_path.ConfigName.replace(/\.wpk/i, '');
         original_path = old_path.ConfigDir;
     }
-    var path_reg = /((\/[^\/]+)+\/)([^\/]+)/ig;
-    var path_base = path_reg.exec(original_path)[1].trim();
-    var new_path = path_base+new_name;
-    console.info('<<<<<<<<<<<<<'+old_name.replace(/\.wpk/, '')+'>>>>>>>>>>>>>>');
-    var r = http.get('http://127.0.0.1:8181/api?reqCode=7014&configName='+old_name.replace(/\.wpk/, '')+'&updateConfigName='+new_name);
+    var path_base = /.+(?=\/[^\/]+\.wpk)/i.exec(original_path)[0].trim();
+    var new_path = `${path_base}/${new_name}`;
+    console.info(`http://127.0.0.1:8181/api?reqCode=7014&configName=${old_name}&updateConfigName=${new_name}`);
+    var r = http.get(`http://127.0.0.1:8181/api?reqCode=7014&configName=${old_name}&updateConfigName=${new_name}`);
     if(r.statusCode!=200){
         console.warn("修改失败，请检查WPK是否在运行");
         return original_path;
